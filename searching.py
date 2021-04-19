@@ -47,6 +47,12 @@ def linear_search(seq, num):
 
 
 def patter_search(sequence, pattern):
+    """
+
+    :param sequence:
+    :param pattern:
+    :return:
+    """
 
     pattern_size = len(pattern)
     positions = set()
@@ -54,11 +60,41 @@ def patter_search(sequence, pattern):
     left_idx = 0
     right_idx = pattern_size
 
-    for index, i in enumerate(sequence):
-        if pattern == sequence[index:index+pattern_size]:
-            positions.add(index + pattern_size // 2)
+    while right_idx < len(sequence):
+        for idx_p in range(pattern_size):
+            if pattern[idx_p] != sequence[left_idx + idx_p]:
+                break
+        else:
+            positions.add(left_idx + pattern_size // 2)
+
+        left_idx += 1
+        right_idx += 1
+
+    # for idx_s, i in enumerate(sequence):
+    #     for idx_p in range(pattern_size):
+    #         if pattern[idx_p] != sequence[idx_s + idx_p]:
+    #             break
+    #     else:
+    #         positions.add(idx_s + pattern_size // 2)
 
     return positions
+
+
+def binary_search(seq, number):
+    left_end = 0
+    right_end = len(seq) - 1
+
+    while left_end <= right_end:
+        middle = (left_end + right_end) // 2
+
+        if number < seq[middle]:
+            right_end = middle - 1
+        elif number > seq[middle]:
+            left_end = middle + 1
+        else:
+            return middle
+
+    return None
 
 
 def main():
@@ -73,6 +109,11 @@ def main():
     sequnce = read_data(file_name, "dna_sequence")
     res_2 = patter_search(sequnce, "ATA")
     print(res_2)
+
+    #binary
+    seq = read_data(file_name, "ordered_numbers")
+    res_3 = binary_search(seq, number=13)
+    print(res_3)
 
 
 if __name__ == '__main__':
